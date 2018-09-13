@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>SHRT</title>
+    <link href="/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-$END$
+<h1 class="text-center">SHRT</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-offset-3">
+        <form class="form-inline" th:action="@{/add}" th:method="POST">
+            <input type="text" class="form-control input-lg resizedInput" id="url" placeholder="Paste a link to shorten it">
+            <button class="btn btn-primary btn-lg">
+                <span class="glyphicon glyphicon-scissors"></span> SHORTEN
+            </button>
+        </form>
+        </div>
+    </div>
+</div>
+
+
 </body>
 </html>

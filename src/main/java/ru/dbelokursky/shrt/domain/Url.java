@@ -1,6 +1,7 @@
 package ru.dbelokursky.shrt.domain;
 
 import lombok.Data;
+import org.checkerframework.checker.units.qual.C;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -13,6 +14,7 @@ public class Url {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "url_id")
     private Long id;
 
     @Column(name = "original_url")
@@ -26,4 +28,8 @@ public class Url {
 
     @Column(name = "click_counter")
     private AtomicInteger clickCounter;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }
