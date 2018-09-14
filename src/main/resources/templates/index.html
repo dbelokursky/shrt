@@ -14,12 +14,12 @@
         var url = document.main_form.url;
         var regExUrl = /^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?'\\+&%$#=~_-]+))*$/;
         if (url.value == "") {
-            window.alert("Please enter URL.");
+            document.getElementById("message").innerHTML = "<pre>Please enter URL.</pre>";
             url.focus();
             return false;
         }
         if (!url.value.match(regExUrl)) {
-            window.alert("Please check this URL is correct.");
+            document.getElementById("message").innerHTML = "<pre>Please check this URL is correct.</pre>";
             url.focus();
             return false;
         }
@@ -30,13 +30,16 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-md-offset-3">
-            <form name="main_form" class="form-inline" onsubmit="return validateForm()" th:action="@{/add}" th:method="POST">
+            <form name="main_form" class="form-inline" onsubmit="return validateForm()" th:action="@{/add}"
+                  th:method="POST">
                 <input type="text" class="form-control input-lg resizedInput" id="url"
                        placeholder="Paste a link to shorten it" size="50">
                 <button class="btn btn-primary btn-lg">
                     <span class="glyphicon glyphicon-scissors"></span> SHORTEN
                 </button>
             </form>
+            </p>
+            <label id="message" name="errorMessage"></label>
         </div>
     </div>
 </div>
