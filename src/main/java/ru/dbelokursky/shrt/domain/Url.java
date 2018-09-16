@@ -20,14 +20,14 @@ public class Url {
     @Column(name = "original_url")
     private String originalUrl;
 
-    @Column(name = "short_url")
-    private String shortUrl;
+    @Column(name = "hash")
+    private String hash;
 
     @Column(name = "publication_date")
     private Date publicationDate;
 
     @Column(name = "click_counter")
-    private AtomicInteger clickCounter;
+    private Integer clickCounter;
 
     @ManyToOne
     @JoinColumn(name = "user_id")

@@ -9,8 +9,8 @@ enabled BOOLEAN
 
 CREATE TABLE url (
   url_id          SERIAL PRIMARY KEY,
-  original_url           VARCHAR(300),
-  short_url           VARCHAR(8),
+  original_url           VARCHAR(300) UNIQUE,
+  hash           VARCHAR(8),
   user_id INTEGER REFERENCES shrt_user(user_id),
   publication_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

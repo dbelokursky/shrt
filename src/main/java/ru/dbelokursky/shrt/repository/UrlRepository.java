@@ -5,5 +5,5 @@ import ru.dbelokursky.shrt.domain.Url;
 
 public interface UrlRepository extends CrudRepository<Url, Long> {
 
-    Url findByShortUrl(String shortUrl);
+    Url findByHash(String shortUrl);
 }
