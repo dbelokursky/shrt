@@ -8,11 +8,12 @@ enabled BOOLEAN
 );
 
 CREATE TABLE url (
-  url_id          SERIAL PRIMARY KEY,
-  original_url           VARCHAR(300) UNIQUE,
-  hash           VARCHAR(8),
+  url_id SERIAL PRIMARY KEY,
+  original_url VARCHAR(300) UNIQUE,
+  hash VARCHAR(8) UNIQUE,
   user_id INTEGER REFERENCES shrt_user(user_id),
-  publication_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  publication_date TIMESTAMP,
+  redirect_type VARCHAR(3)
 );
 
 CREATE TABLE role(

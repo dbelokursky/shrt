@@ -11,5 +11,5 @@ public interface UrlService {
 
     Optional<Url> findById(Long id);
 
-    void save(Url url);
+    Url save(Url url);
 }

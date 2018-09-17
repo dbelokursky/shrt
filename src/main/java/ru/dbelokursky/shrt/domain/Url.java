@@ -1,11 +1,9 @@
 package ru.dbelokursky.shrt.domain;
 
 import lombok.Data;
-import org.checkerframework.checker.units.qual.C;
 
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Data
 @Entity
@@ -18,7 +16,7 @@ public class Url {
     private Long id;
 
     @Column(name = "original_url")
-    private String originalUrl;
+    private String url;
 
     @Column(name = "hash")
     private String hash;
@@ -32,4 +30,7 @@ public class Url {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @Column(name = "redirect_type")
+    private String redirectType;
 }

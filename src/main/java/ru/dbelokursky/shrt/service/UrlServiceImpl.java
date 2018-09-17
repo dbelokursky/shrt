@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UrlServiceImpl implements UrlService{
+public class UrlServiceImpl implements UrlService {
 
     private final UrlRepository urlRepository;
 
@@ -44,19 +44,27 @@ public class UrlServiceImpl implements UrlService{
      * @see <a href="https://en.wikipedia.org/wiki/MurmurHash#MurmurHash3">MurmurHash3</a>
      */
     @Override
-    public void save(Url url) {
-        String originalUrl = url.getOriginalUrl();
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public Url save(Url url) {
 
-        if (new UrlValidator().isValid(originalUrl)) {
-            String hash = Hashing.murmur3_32().hashString(originalUrl, StandardCharsets.UTF_8).toString();
-            url.setHash(hash);
-            url.setClickCounter(0);
-            url.setPublicationDate(new Date(System.currentTimeMillis()));
-            if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-                url.setUser(userRepository.findByLogin(authentication.getName()));
+        if (new UrlValidator().isValid(url.getUrl())) {
+            String hash = Hashing.murmur3_32().hashString(url.getUrl(), StandardCharsets.UTF_8).toString();
+            if (!urlRepository.findByHash(hash).isPresent()) {
+                url.setHash(hash);
+                url.setClickCounter(0);
+                url.setPublicationDate(new Date(System.currentTimeMillis()));
+                setUser(url);
+                urlRepository.save(url);
+            } else {
+                url = urlRepository.findByHash(hash).get();
             }
-            urlRepository.save(url);
+        }
+        return url;
+    }
+
+    private void setUser(Url url) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            url.setUser(userRepository.findByLogin(authentication.getName()));
         }
     }
 }

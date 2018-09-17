@@ -1,15 +1,13 @@
 package ru.dbelokursky.shrt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import ru.dbelokursky.shrt.domain.Url;
 import ru.dbelokursky.shrt.service.UrlService;
 
-@Controller
+@RestController
 public class UrlController {
 
     private final UrlService urlService;
@@ -19,15 +17,8 @@ public class UrlController {
         this.urlService = urlService;
     }
 
-    @GetMapping("/")
-    public String getIndexPage(Model model) {
-        model.addAttribute("url", new Url());
-        return "index";
-    }
-
-    @PostMapping("/add")
-    public String addUrl(@ModelAttribute Url url) {
-        urlService.save(url);
-        return "/index";
+    @PostMapping(value = "/register", produces = "application/json")
+    public Url register(@RequestBody Url url) {
+        return urlService.save(url);
     }
 }
