@@ -31,8 +31,8 @@
     <div class="row">
         <div class="col-lg-8 col-md-offset-3">
             <form name="main_form" class="form-inline" onsubmit="return validateForm()" th:action="@{/add}"
-                  th:method="POST" th:object="${url}">
-                <input th:field="*{originalUrl}" type="text" class="form-control input-lg resizedInput" id="url"
+                  th:method="POST">
+                <input class="form-control input-lg resizedInput" id="url" type="text"
                        placeholder="Paste a link to shorten it" size="50">
                 <button class="btn btn-primary btn-lg">
                     <span class="glyphicon glyphicon-scissors"></span> SHORTEN

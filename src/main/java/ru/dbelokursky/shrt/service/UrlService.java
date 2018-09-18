@@ -12,4 +12,8 @@ public interface UrlService {
     Optional<Url> findById(Long id);
 
     Url save(Url url);
+
+    Url incrementCounter(Url url);
+
+    Optional<Url> findByHash(String hash);
 }

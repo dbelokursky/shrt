@@ -13,7 +13,8 @@ CREATE TABLE url (
   hash VARCHAR(8) UNIQUE,
   user_id INTEGER REFERENCES shrt_user(user_id),
   publication_date TIMESTAMP,
-  redirect_type VARCHAR(3)
+  redirect_code INT,
+  click_counter INT
 );
 
 CREATE TABLE role(

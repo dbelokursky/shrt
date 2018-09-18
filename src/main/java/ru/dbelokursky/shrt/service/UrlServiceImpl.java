@@ -45,7 +45,6 @@ public class UrlServiceImpl implements UrlService {
      */
     @Override
     public Url save(Url url) {
-
         if (new UrlValidator().isValid(url.getUrl())) {
             String hash = Hashing.murmur3_32().hashString(url.getUrl(), StandardCharsets.UTF_8).toString();
             if (!urlRepository.findByHash(hash).isPresent()) {
@@ -59,6 +58,18 @@ public class UrlServiceImpl implements UrlService {
             }
         }
         return url;
+    }
+
+    @Override
+    public Url incrementCounter(Url url) {
+        url.setClickCounter(url.getClickCounter() + 1);
+        urlRepository.save(url);
+        return url;
+    }
+
+    @Override
+    public Optional<Url> findByHash(String hash) {
+        return urlRepository.findByHash(hash);
     }
 
     private void setUser(Url url) {

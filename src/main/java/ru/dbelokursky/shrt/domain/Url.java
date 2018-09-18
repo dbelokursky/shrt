@@ -1,10 +1,12 @@
 package ru.dbelokursky.shrt.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Date;
 
+@DynamicUpdate
 @Data
 @Entity
 @Table(name = "url")
@@ -31,6 +33,6 @@ public class Url {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @Column(name = "redirect_type")
-    private String redirectType;
+    @Column(name = "redirect_code")
+    private Integer redirectCode;
 }
