@@ -75,7 +75,7 @@ public class UrlServiceImpl implements UrlService {
     private void setUser(Url url) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-            url.setUser(userRepository.findByLogin(authentication.getName()));
+            url.setUser(userRepository.findByLogin(authentication.getName()).get());
         }
     }
 }

@@ -1,5 +1,6 @@
 package ru.dbelokursky.shrt.service;
 
+import ru.dbelokursky.shrt.domain.Account;
 import ru.dbelokursky.shrt.domain.User;
 
 import java.util.List;
@@ -9,7 +10,7 @@ public interface UserService {
 
     List<User> findAll();
 
-    User findById(Long id);
+    Optional<User> findById(Long id);
 
-    void save(User user);
+    Account save(User user);
 }

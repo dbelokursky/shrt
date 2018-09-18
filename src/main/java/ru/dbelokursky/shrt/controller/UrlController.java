@@ -7,9 +7,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import ru.dbelokursky.shrt.domain.Url;
 import ru.dbelokursky.shrt.service.UrlService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 @RestController
 public class UrlController {
 
@@ -26,7 +23,7 @@ public class UrlController {
     }
 
     @GetMapping(value = "/{hash}")
-    public RedirectView redirect(@PathVariable String hash, HttpServletRequest req, HttpServletResponse resp) {
+    public RedirectView redirect(@PathVariable String hash) {
         RedirectView redirectView = new RedirectView();
         if (urlService.findByHash(hash).isPresent()) {
             Url url = urlService.findByHash(hash).get();
