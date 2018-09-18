@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
 
-    public User findByLogin(String login) {
-        return userRepository.findByLogin(login).get();
+    public Optional<User> findByLogin(String login) {
+        return userRepository.findByLogin(login);
     }
 
     @Override
@@ -46,6 +46,7 @@ public class UserServiceImpl implements UserService {
             String salt = BCrypt.gensalt();
             String hashedPassword = BCrypt.hashpw(password, salt);
             user.setPassword(hashedPassword);
+            user.setEnabled(true);
             userRepository.save(user);
             account.setSuccess(true);
             account.setDescription("Your account is opened.");

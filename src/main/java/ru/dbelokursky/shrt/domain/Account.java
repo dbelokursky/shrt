@@ -5,9 +5,9 @@ import lombok.Data;
 @Data
 public class Account {
 
-    boolean success;
+    private boolean success;
 
-    String description;
+    private String description;
 
-    String password;
+    private String password;
 }
