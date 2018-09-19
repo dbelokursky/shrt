@@ -1,8 +1,11 @@
 package ru.dbelokursky.shrt.domain;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @Entity
@@ -22,4 +25,13 @@ public class User {
 
     @Column(name = "enabled")
     private Boolean enabled;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id")}
+    )
+    @EqualsAndHashCode.Exclude
+    private Set<Role> roles = new HashSet<>();
 }

@@ -6,9 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import ru.dbelokursky.shrt.domain.Account;
+import ru.dbelokursky.shrt.domain.Role;
 import ru.dbelokursky.shrt.domain.User;
 import ru.dbelokursky.shrt.repository.UserRepository;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 
@@ -47,6 +49,10 @@ public class UserServiceImpl implements UserService {
             String hashedPassword = BCrypt.hashpw(password, salt);
             user.setPassword(hashedPassword);
             user.setEnabled(true);
+            HashSet roles = new HashSet();
+            Role defaultRole = Role.builder().id(1L).name("ROLE_USER").build();
+            roles.add(defaultRole);
+            user.setRoles(roles);
             userRepository.save(user);
             account.setSuccess(true);
             account.setDescription("Your account is opened.");
