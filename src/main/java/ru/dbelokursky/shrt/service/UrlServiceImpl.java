@@ -16,9 +16,12 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UrlServiceImpl implements UrlService {
+
+    private final static int DEFAULT_REDIRECT_CODE = 302;
 
     private final UrlRepository urlRepository;
 
@@ -28,6 +31,11 @@ public class UrlServiceImpl implements UrlService {
     public UrlServiceImpl(UrlRepository urlRepository, UserRepository userRepository) {
         this.urlRepository = urlRepository;
         this.userRepository = userRepository;
+    }
+
+    @Override
+    public Set<Url> findByUserId(Long userId) {
+        return urlRepository.findByUserId(userId);
     }
 
     @Override
@@ -52,6 +60,9 @@ public class UrlServiceImpl implements UrlService {
                 url.setClickCounter(0);
                 url.setPublicationDate(new Date(System.currentTimeMillis()));
                 setUser(url);
+                if (url.getRedirectCode() == null) {
+                    url.setRedirectCode(DEFAULT_REDIRECT_CODE);
+                }
                 urlRepository.save(url);
             } else {
                 url = urlRepository.findByHash(hash).get();

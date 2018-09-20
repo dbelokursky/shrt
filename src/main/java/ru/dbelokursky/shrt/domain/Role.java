@@ -1,7 +1,9 @@
 package ru.dbelokursky.shrt.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -21,6 +23,8 @@ public class Role {
     @Column(name = "name")
     private String name;
 
+    @JsonBackReference
+    @EqualsAndHashCode.Exclude
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 

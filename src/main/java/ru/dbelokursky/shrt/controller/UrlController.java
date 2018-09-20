@@ -7,6 +7,10 @@ import org.springframework.web.servlet.view.RedirectView;
 import ru.dbelokursky.shrt.domain.Url;
 import ru.dbelokursky.shrt.service.UrlService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 public class UrlController {
 
@@ -18,8 +22,11 @@ public class UrlController {
     }
 
     @PostMapping(value = "/register", produces = "application/json", consumes = "application/json")
-    public Url register(@RequestBody Url url) {
-        return urlService.save(url);
+    public Map<String, String> register(@RequestBody Url url, HttpServletRequest request) {
+        Map<String, String> shortUrl = new HashMap<>();
+        Url savedUrl = urlService.save(url);
+        shortUrl.put("shortUrl", String.format("%s%s%s", request.getRequestURL(), "/", savedUrl.getHash()));
+        return shortUrl;
     }
 
     @GetMapping(value = "/{hash}")

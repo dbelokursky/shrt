@@ -7,22 +7,25 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import ru.dbelokursky.shrt.domain.Account;
 import ru.dbelokursky.shrt.domain.Role;
+import ru.dbelokursky.shrt.domain.Url;
 import ru.dbelokursky.shrt.domain.User;
+import ru.dbelokursky.shrt.repository.UrlRepository;
 import ru.dbelokursky.shrt.repository.UserRepository;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final static int DEFAULT_PASSWORD_LENGTH = 8;
 
+    private final UrlRepository urlRepository;
+
     private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UrlRepository urlRepository, UserRepository userRepository) {
+        this.urlRepository = urlRepository;
         this.userRepository = userRepository;
     }
 
@@ -62,5 +65,17 @@ public class UserServiceImpl implements UserService {
             account.setDescription("An account with that login already exists");
         }
         return account;
+    }
+
+    @Override
+    public Map<String, Integer> getClickStatistic(String login) {
+        Map<String, Integer> userUrls = new HashMap<>();
+        if (findByLogin(login).isPresent()) {
+            User user = findByLogin(login).get();
+            for (Url url : urlRepository.findByUserId(user.getId())) {
+                userUrls.put(url.getUrl(), url.getClickCounter());
+            }
+        }
+        return userUrls;
     }
 }

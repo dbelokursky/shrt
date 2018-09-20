@@ -4,6 +4,7 @@ import ru.dbelokursky.shrt.domain.Url;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface UrlService {
 
@@ -16,4 +17,6 @@ public interface UrlService {
     Url incrementCounter(Url url);
 
     Optional<Url> findByHash(String hash);
+
+    Set<Url> findByUserId(Long userId);
 }
