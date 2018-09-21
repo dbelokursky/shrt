@@ -1,11 +1,14 @@
 package ru.dbelokursky.shrt.controller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import ru.dbelokursky.shrt.domain.Account;
 import ru.dbelokursky.shrt.domain.User;
 import ru.dbelokursky.shrt.service.UrlService;
 import ru.dbelokursky.shrt.service.UserService;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -27,6 +30,11 @@ public class UserController {
 
     @GetMapping(value = "/statistic/{login}")
     public Map<String, Integer> getStatistic(@PathVariable String login) {
-        return userService.getClickStatistic(login);
+        Map<String, Integer> stat = new HashMap<>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth.getName().equals(login)) {
+            stat = userService.getClickStatistic(login);
+        }
+        return stat;
     }
 }

@@ -25,7 +25,9 @@ public class UrlController {
     public Map<String, String> register(@RequestBody Url url, HttpServletRequest request) {
         Map<String, String> shortUrl = new HashMap<>();
         Url savedUrl = urlService.save(url);
-        shortUrl.put("shortUrl", String.format("%s%s%s", request.getRequestURL(), "/", savedUrl.getHash()));
+        String requestUrl = request.getRequestURL().toString();
+        String baseUrl = requestUrl.substring(0, requestUrl.lastIndexOf("/") + 1);
+        shortUrl.put("shortUrl", String.format("%s%s", baseUrl, savedUrl.getHash()));
         return shortUrl;
     }
 

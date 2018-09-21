@@ -9,12 +9,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private AuthenticationEntryPoint authenticationEntryPoint;
 
     @Autowired
     private DataSource dataSource;
@@ -37,20 +41,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .antMatchers("/login", "/static/**", "/index").permitAll()
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/register", "/account").permitAll()
+                .anyRequest().authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/")
-                .failureUrl("/login")
-                .usernameParameter("login")
-                .passwordParameter("password")
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage("/accessdenied")
-                .and()
-                .csrf().disable();
+                .httpBasic()
+                .authenticationEntryPoint(authenticationEntryPoint);
     }
 }
