@@ -20,9 +20,4 @@ public class ServiceController {
     String getIndexPage() {
         return "index";
     }
-
-    @GetMapping(value = "/login")
-    String getLoginPage() {
-        return "login";
-    }
 }
