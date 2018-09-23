@@ -25,6 +25,29 @@
     </properties>
 
     <dependencies>
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.restdocs/spring-restdocs-restassured &ndash;&gt;-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.restdocs</groupId>-->
+        <!--<artifactId>spring-restdocs-restassured</artifactId>-->
+        <!--<version>2.0.2.RELEASE</version>-->
+        <!--<scope>test</scope>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.restdocs/spring-restdocs-webtestclient &ndash;&gt;-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.restdocs</groupId>-->
+        <!--<artifactId>spring-restdocs-webtestclient</artifactId>-->
+        <!--<version>2.0.2.RELEASE</version>-->
+        <!--</dependency>-->
+
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.restdocs/spring-restdocs-mockmvc &ndash;&gt;-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.restdocs</groupId>-->
+        <!--<artifactId>spring-restdocs-mockmvc</artifactId>-->
+        <!--<version>2.0.2.RELEASE</version>-->
+        <!--<scope>test</scope>-->
+        <!--</dependency>-->
+
         <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
         <dependency>
             <groupId>commons-lang</groupId>
@@ -39,11 +62,13 @@
             <version>1.4.0</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
+            <version>42.2.5</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
         <dependency>
             <groupId>com.google.guava</groupId>

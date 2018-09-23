@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 
 @Component
 public class AuthenticationEntryPoint extends BasicAuthenticationEntryPoint {
+
     @Override
     public void afterPropertiesSet() throws Exception {
         setRealmName("shrtUsers");

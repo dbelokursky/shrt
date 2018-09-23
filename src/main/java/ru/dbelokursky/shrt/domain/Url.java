@@ -1,5 +1,6 @@
 package ru.dbelokursky.shrt.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -8,6 +9,7 @@ import java.sql.Date;
 
 @DynamicUpdate
 @Data
+@Builder
 @Entity
 @Table(name = "url")
 public class Url {

@@ -12,6 +12,7 @@ import ru.dbelokursky.shrt.domain.Url;
 import ru.dbelokursky.shrt.repository.UrlRepository;
 import ru.dbelokursky.shrt.repository.UserRepository;
 
+import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.sql.Date;
 import java.util.List;
@@ -20,8 +21,6 @@ import java.util.Set;
 
 @Service
 public class UrlServiceImpl implements UrlService {
-
-    private final static int DEFAULT_REDIRECT_CODE = 302;
 
     private final UrlRepository urlRepository;
 
@@ -61,7 +60,7 @@ public class UrlServiceImpl implements UrlService {
                 url.setPublicationDate(new Date(System.currentTimeMillis()));
                 setUser(url);
                 if (url.getRedirectCode() == null) {
-                    url.setRedirectCode(DEFAULT_REDIRECT_CODE);
+                    url.setRedirectCode(HttpServletResponse.SC_MOVED_TEMPORARILY);
                 }
                 urlRepository.save(url);
             } else {
