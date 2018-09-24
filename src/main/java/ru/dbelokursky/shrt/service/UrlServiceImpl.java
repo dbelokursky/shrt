@@ -9,6 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import ru.dbelokursky.shrt.domain.Url;
+import ru.dbelokursky.shrt.domain.User;
 import ru.dbelokursky.shrt.repository.UrlRepository;
 import ru.dbelokursky.shrt.repository.UserRepository;
 
@@ -52,22 +53,43 @@ public class UrlServiceImpl implements UrlService {
      */
     @Override
     public Url save(Url url) {
+        Url result = Url.builder().build();
         if (new UrlValidator().isValid(url.getUrl())) {
             String hash = Hashing.murmur3_32().hashString(url.getUrl(), StandardCharsets.UTF_8).toString();
-            if (!urlRepository.findByHash(hash).isPresent()) {
-                url.setHash(hash);
-                url.setClickCounter(0);
-                url.setPublicationDate(new Date(System.currentTimeMillis()));
-                setUser(url);
-                if (url.getRedirectCode() == null) {
-                    url.setRedirectCode(HttpServletResponse.SC_MOVED_TEMPORARILY);
+
+            //If authenticated user is present.
+            if (getAuthenticatedUser().isPresent()) {
+                User user = getAuthenticatedUser().get();
+                if (urlRepository.findByHashAndUser(hash, user).isPresent()) {
+                    result = urlRepository.findByHashAndUser(hash, user).get();
+                } else {
+                    setUpUrl(url, result, hash, user);
+                    urlRepository.save(result);
                 }
-                urlRepository.save(url);
+                //If anonymous user.
             } else {
-                url = urlRepository.findByHash(hash).get();
+                if (urlRepository.findByHash(hash).isPresent()) {
+                    result = urlRepository.findByHash(hash).get();
+                } else {
+                    setUpUrl(url, result, hash, null);
+                    urlRepository.save(result);
+                }
             }
         }
-        return url;
+        return result;
+    }
+
+    private void setUpUrl(Url url, Url result, String hash, User user) {
+        result.setUrl(url.getUrl());
+        result.setHash(hash);
+        result.setClickCounter(0);
+        result.setPublicationDate(new Date(System.currentTimeMillis()));
+        result.setUser(user);
+        if (url.getRedirectCode() == null) {
+            result.setRedirectCode(HttpServletResponse.SC_MOVED_TEMPORARILY);
+        } else {
+            result.setRedirectCode(url.getRedirectCode());
+        }
     }
 
     @Override
@@ -82,10 +104,17 @@ public class UrlServiceImpl implements UrlService {
         return urlRepository.findByHash(hash);
     }
 
-    private void setUser(Url url) {
+    @Override
+    public Optional<Url> findByHashAndLogin(String hash, User user) {
+        return urlRepository.findByHashAndUser(hash, user);
+    }
+
+    private Optional<User> getAuthenticatedUser() {
+        Optional<User> user = Optional.empty();
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-            url.setUser(userRepository.findByLogin(authentication.getName()).get());
+            user = userRepository.findByLogin(authentication.getName());
         }
+        return user;
     }
 }

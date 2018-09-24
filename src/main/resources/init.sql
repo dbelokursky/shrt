@@ -9,12 +9,13 @@ enabled BOOLEAN
 
 CREATE TABLE url (
   url_id SERIAL PRIMARY KEY,
-  original_url VARCHAR(300) UNIQUE,
+  original_url VARCHAR(300),
   hash VARCHAR(8) UNIQUE,
   user_id INTEGER REFERENCES shrt_user(user_id),
   publication_date TIMESTAMP,
   redirect_code INT,
-  click_counter INT
+  click_counter INT,
+  UNIQUE (hash, user_id)
 );
 
 CREATE TABLE role(

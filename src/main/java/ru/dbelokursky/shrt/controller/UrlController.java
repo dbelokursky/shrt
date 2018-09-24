@@ -2,6 +2,8 @@ package ru.dbelokursky.shrt.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.dbelokursky.shrt.domain.Url;
@@ -34,6 +36,7 @@ public class UrlController {
     @GetMapping(value = "/{hash}")
     public RedirectView redirect(@PathVariable String hash) {
         RedirectView redirectView = new RedirectView();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (urlService.findByHash(hash).isPresent()) {
             Url url = urlService.findByHash(hash).get();
             redirectView.setUrl(url.getUrl());

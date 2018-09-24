@@ -34,4 +34,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "role_id")}
     )
     private Set<Role> roles = new HashSet<>();
+
+    @EqualsAndHashCode.Exclude
+    @OneToMany
+    @JoinColumn(name = "url_id")
+    private Set<Url> urls = new HashSet<>();
 }
