@@ -25,28 +25,11 @@
     </properties>
 
     <dependencies>
-        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.restdocs/spring-restdocs-restassured &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.restdocs</groupId>-->
-        <!--<artifactId>spring-restdocs-restassured</artifactId>-->
-        <!--<version>2.0.2.RELEASE</version>-->
-        <!--<scope>test</scope>-->
-        <!--</dependency>-->
-
-        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.restdocs/spring-restdocs-webtestclient &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.restdocs</groupId>-->
-        <!--<artifactId>spring-restdocs-webtestclient</artifactId>-->
-        <!--<version>2.0.2.RELEASE</version>-->
-        <!--</dependency>-->
-
-        <!--&lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.restdocs/spring-restdocs-mockmvc &ndash;&gt;-->
-        <!--<dependency>-->
-        <!--<groupId>org.springframework.restdocs</groupId>-->
-        <!--<artifactId>spring-restdocs-mockmvc</artifactId>-->
-        <!--<version>2.0.2.RELEASE</version>-->
-        <!--<scope>test</scope>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
 
         <!-- https://mvnrepository.com/artifact/commons-lang/commons-lang -->
         <dependency>
