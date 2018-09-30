@@ -19,7 +19,7 @@ public interface UrlService {
 
     Url incrementCounter(Url url);
 
-    Optional<Url> findByHash(String hash);
+    Set<Url> findByHash(String hash);
 
     Set<Url> findByUserId(Long userId);
 }

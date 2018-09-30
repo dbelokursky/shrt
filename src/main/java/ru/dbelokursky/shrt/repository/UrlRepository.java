@@ -9,7 +9,7 @@ import java.util.Set;
 
 public interface UrlRepository extends CrudRepository<Url, Long> {
 
-    Optional<Url> findByHash(String shortUrl);
+    Set<Url> findByHash(String shortUrl);
 
     Optional<Url> findByHashAndUser(String hash, User user);
 

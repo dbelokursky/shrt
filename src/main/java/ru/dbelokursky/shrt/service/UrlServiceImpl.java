@@ -68,8 +68,8 @@ public class UrlServiceImpl implements UrlService {
                 }
                 //If anonymous user.
             } else {
-                if (urlRepository.findByHash(hash).isPresent()) {
-                    result = urlRepository.findByHash(hash).get();
+                if (!urlRepository.findByHash(hash).isEmpty()) {
+                    result = urlRepository.findByHash(hash).iterator().next();
                 } else {
                     setUpUrl(url, result, hash, null);
                     urlRepository.save(result);
@@ -100,7 +100,7 @@ public class UrlServiceImpl implements UrlService {
     }
 
     @Override
-    public Optional<Url> findByHash(String hash) {
+    public Set<Url> findByHash(String hash) {
         return urlRepository.findByHash(hash);
     }
 
