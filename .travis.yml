@@ -5,6 +5,6 @@ after_success:
 notifications:
   email:
     recipients:
-      -mailto:dbelkursky@gmail.com
+      -dbelkursky@gmail.com
     on_success: never
     on_failure: always
