@@ -21,6 +21,26 @@ public class UrlController {
         this.urlService = urlService;
     }
 
+    /**
+     * Request:
+     * JSON object with the following parameters:
+     * url (mandatory, url that needs shortening)
+     * redirectType : 301 | 302 (not mandatory, default 302)
+     * Example: {
+     * "url": "http://stackoverflow.com/questions/1567929/website-safe-data-
+     * access-architecture-question?rq=1",
+     * "redirectType": "301"
+     * }
+     * <p>
+     * Response:
+     * Response parameters in case of successful registration are as follows:
+     * shortUrl (shortened URL)
+     * Example: { "shortUrl": "http://short.com/xYswlE" }
+     *
+     * @param url
+     * @param request
+     * @return a JSON object, key:value map.
+     */
     @PostMapping(value = "/register", produces = "application/json", consumes = "application/json")
     public Map<String, String> register(@RequestBody Url url, HttpServletRequest request) {
         Map<String, String> shortUrl = new HashMap<>();
@@ -31,6 +51,12 @@ public class UrlController {
         return shortUrl;
     }
 
+    /**
+     * Redirect to original url if exist or 404 if not.
+     *
+     * @param hash
+     * @return RedirectView with original URL if exist or 404 if not.
+     */
     @GetMapping(value = "/{hash}")
     public RedirectView redirect(@PathVariable String hash) {
         RedirectView redirectView = new RedirectView();

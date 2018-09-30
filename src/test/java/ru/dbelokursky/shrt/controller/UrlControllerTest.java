@@ -38,10 +38,7 @@ public class UrlControllerTest {
             .publicationDate(new Date(System.currentTimeMillis()))
             .build();
 
-    private final String request =
-            "{" +
-                    "\"url\": \"https://habr.com/company/jugru/\"" +
-                    "}";
+    private final String request = "{\"url\": \"https://habr.com/company/jugru/\"}";
 
     @Test
     public void shouldReturnShortenUrl() throws Exception {

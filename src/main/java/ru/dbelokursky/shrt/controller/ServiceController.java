@@ -20,4 +20,9 @@ public class ServiceController {
     String getIndexPage() {
         return "index";
     }
+
+    @GetMapping(value = "/help")
+    String getHelpPage() {
+        return "help";
+    }
 }
