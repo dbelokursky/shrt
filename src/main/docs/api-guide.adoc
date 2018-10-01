@@ -1,0 +1,19 @@
+==== Url registration.
+
+JSON object with the following parameters:
+url (mandatory, url that needs shortening)
+redirectType : 301 | 302 (not mandatory, default 302).
+
+Request example:
+include::{snippets}/should-return-shorten-url/http-request.adoc[]
+
+Response example:
+include::{snippets}/should-return-shorten-url/http-response.adoc[]
+
+==== Url redirection.
+
+Request example:
+include::{snippets}/when-request-with-short-url-than-redirect-to-original-url/httpie-request.adoc[]
+
+Response example:
+include::{snippets}/when-request-with-short-url-than-redirect-to-original-url/http-response.adoc[]
