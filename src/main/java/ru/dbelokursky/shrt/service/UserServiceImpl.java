@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Account save(User user) {
-        Account account = new Account();
+        Account account = Account.builder().build();
         if (!userRepository.findByLogin(user.getLogin()).isPresent()) {
             String password = RandomStringUtils.randomAlphanumeric(DEFAULT_PASSWORD_LENGTH);
             String salt = BCrypt.gensalt();

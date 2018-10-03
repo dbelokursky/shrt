@@ -1,5 +1,6 @@
 package ru.dbelokursky.shrt.domain;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@Builder
 @Entity
 @Table(name = "shrt_user")
 public class User {

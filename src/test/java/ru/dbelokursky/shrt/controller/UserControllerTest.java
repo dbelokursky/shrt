@@ -9,16 +9,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.JUnitRestDocumentation;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import ru.dbelokursky.shrt.domain.Url;
+import ru.dbelokursky.shrt.domain.Account;
+import ru.dbelokursky.shrt.domain.User;
 import ru.dbelokursky.shrt.service.UrlService;
+import ru.dbelokursky.shrt.service.UserService;
 
-import java.sql.Date;
-import java.util.Arrays;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -26,11 +28,12 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(value = UrlController.class, secure = false)
-public class UrlControllerTest {
+@WebMvcTest(value = UserController.class)
+public class UserControllerTest {
 
     @Rule
     public JUnitRestDocumentation restDocumentation = new JUnitRestDocumentation("target/generated-snippets");
@@ -41,6 +44,12 @@ public class UrlControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @MockBean
+    private UserService userService;
+
+    @MockBean
+    private UrlService urlService;
+
     @Before
     public void setUp() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.context)
@@ -50,41 +59,41 @@ public class UrlControllerTest {
                 .build();
     }
 
-    @MockBean
-    private UrlService urlService;
-
-    private final Url url = Url.builder()
-            .url("https://habr.com/company/jugru/")
-            .redirectCode(302)
-            .hash("4d789a4b")
-            .clickCounter(0)
-            .publicationDate(new Date(System.currentTimeMillis()))
-            .build();
-
-    private final String request = "{\"url\": \"https://habr.com/company/jugru/\"}";
-
     @Test
-    public void shouldReturnShortenUrl() throws Exception {
-        Url url = Url.builder().url("https://habr.com/company/jugru/").build();
-
-        when(urlService.save(url)).thenReturn(url);
+    public void createAccount() throws Exception {
+        String request =
+                "{\n"
+                        + "\"login\": \"newUser\"\n"
+                        + "}";
+        User user = User.builder().login("newUser").build();
+        Account account = Account.builder()
+                .success(true)
+                .description("Your account is opened.")
+                .password("newPassword").build();
+        when(userService.save(user)).thenReturn(account);
 
         this.mockMvc.perform(
-                post("/register")
+                post("/account")
                         .accept(MediaType.APPLICATION_JSON).content(request)
                         .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
 
-        verify(urlService, times(1)).save(url);
+        verify(userService, times(1)).save(user);
     }
 
     @Test
-    public void whenRequestWithShortUrlThanRedirectToOriginalUrl() throws Exception {
-        when(urlService.findByHash(url.getHash())).thenReturn(new HashSet<>(Arrays.asList(url)));
+    @WithMockUser(value = "user1")
+    public void getStatistic() throws Exception {
+        Map<String, Integer> stat = new HashMap<>();
+        stat.put("url", 10);
 
-        this.mockMvc.perform(get("/" + url.getHash()).accept(MediaType.TEXT_HTML))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl(url.getUrl()));
+        when(userService.getClickStatistic("login")).thenReturn(stat);
+
+        this.mockMvc.perform(
+                get("/statistic/login")
+                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
 }

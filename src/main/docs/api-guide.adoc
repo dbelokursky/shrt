@@ -17,3 +17,11 @@ include::{snippets}/when-request-with-short-url-than-redirect-to-original-url/ht
 
 Response example:
 include::{snippets}/when-request-with-short-url-than-redirect-to-original-url/http-response.adoc[]
+
+==== Account creation.
+
+Request example:
+include::{snippets}/create-account/http-request.adoc[]
+
+Response example:
+include::{snippets}/create-account/http-response.adoc[]

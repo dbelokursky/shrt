@@ -26,21 +26,21 @@ public class UserController {
     /**
      * Request:
      * JSON object with the following parameters:
-     * AccountId (String, mandatory)
+     * login (String, mandatory)
+     *
      * Example:
      * {
      * "login": "userLogin"
      * }
-     * <p>
+     *
      * Response:
      * Unsuccessful registration occurs only if the concerned login
      * already exists. The parameters are as follows:
      * success: true | false
-     * description: Description of status, for example: account with that
-     * login already exists
+     * description: Description of status, for example: account with that login already exists
      * password: Returns only if the account was successfully created.
-     * Automatically generated password length of 8 alphanumeric
-     * characters
+     * Automatically generated password length of 8 alphanumeric characters.
+     *
      * Example:
      * {
      * "success": true,
