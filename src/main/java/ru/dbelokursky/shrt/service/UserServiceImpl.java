@@ -2,7 +2,9 @@ package ru.dbelokursky.shrt.service;
 
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.RandomStringUtils;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 import ru.dbelokursky.shrt.domain.Account;
@@ -12,6 +14,8 @@ import ru.dbelokursky.shrt.domain.User;
 import ru.dbelokursky.shrt.repository.UrlRepository;
 import ru.dbelokursky.shrt.repository.UserRepository;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.*;
 
 @Service
@@ -46,7 +50,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Account save(User user) {
         Account account = Account.builder().build();
-        if (!userRepository.findByLogin(user.getLogin()).isPresent()) {
+        try {
             String password = RandomStringUtils.randomAlphanumeric(DEFAULT_PASSWORD_LENGTH);
             String salt = BCrypt.gensalt();
             String hashedPassword = BCrypt.hashpw(password, salt);
@@ -60,7 +64,7 @@ public class UserServiceImpl implements UserService {
             account.setSuccess(true);
             account.setDescription("Your account is opened.");
             account.setPassword(password);
-        } else {
+        } catch (DataIntegrityViolationException e) {
             account.setSuccess(false);
             account.setDescription("An account with that login already exists");
         }
@@ -70,9 +74,9 @@ public class UserServiceImpl implements UserService {
     @Override
     public Map<String, Integer> getClickStatistic(String login) {
         Map<String, Integer> userUrls = new HashMap<>();
-        if (findByLogin(login).isPresent()) {
-            User user = findByLogin(login).get();
-            for (Url url : urlRepository.findByUserId(user.getId())) {
+        Optional<User> user = findByLogin(login);
+        if (user.isPresent()) {
+            for (Url url : urlRepository.findByUserId(user.get().getId())) {
                 userUrls.put(url.getUrl(), url.getClickCounter());
             }
         }
