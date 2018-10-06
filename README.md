@@ -19,5 +19,3 @@ Service functionality:
 * Run jar.
 
 ![mvn package](https://github.com/dbelokursky/shrt/blob/master/src/main/resources/static/images/runJar.png)
-
-Api documentation: target/generated-docs/api-guide.html

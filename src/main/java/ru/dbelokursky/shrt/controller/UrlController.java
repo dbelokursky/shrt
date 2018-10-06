@@ -31,7 +31,7 @@ public class UrlController {
      * access-architecture-question?rq=1",
      * "redirectType": "301"
      * }
-     * <p>
+     *
      * Response:
      * Response parameters in case of successful registration are as follows:
      * shortUrl (shortened URL)
@@ -53,6 +53,14 @@ public class UrlController {
 
     /**
      * Redirect to original url if exist or 404 if not.
+     * Request:
+     * http GET 'http://localhost:8080/4d789a4b'
+     *     'Accept:text/html'
+     *
+     * Response:
+     * HTTP/1.1 302 Found
+     * Content-Language: en
+     * Location: https://habr.com/company/jugru/
      *
      * @param hash
      * @return RedirectView with original URL if exist or 404 if not.
