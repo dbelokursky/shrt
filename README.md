@@ -1,5 +1,6 @@
 # shrt
 [![Build Status](https://travis-ci.org/dbelokursky/shrt.svg?branch=master)](https://travis-ci.org/dbelokursky/shrt)
+[![codecov](https://codecov.io/gh/dbelokursky/shrt/branch/master/graph/badge.svg)](https://codecov.io/gh/dbelokursky/shrt)
 
 ## Description
 
